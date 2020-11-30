@@ -16,5 +16,14 @@ def matchstring(regex, text):
     else:
         return False
 
+
+def match(regex, text):
+    len_text = len(text)
+    len_reg = len(regex)
+    for i in range(len_text - len_reg + 1):
+        if matchstring(regex, text[i:]):
+            return True
+    return False
+
 regex, text = input().split('|')
-print(matchstring(regex, text))
+print(match(regex, text))
