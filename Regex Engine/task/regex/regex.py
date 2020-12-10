@@ -10,6 +10,8 @@ def matchstring(regex, text):
     if len(regex) == 0:
         return True
     if len(text) == 0:
+        if regex == '$':
+            return True
         return False
     if matchchar(regex[0], text[0]):
         return matchstring(regex[1:], text[1:])
@@ -20,7 +22,12 @@ def matchstring(regex, text):
 def match(regex, text):
     len_text = len(text)
     len_reg = len(regex)
-    for i in range(len_text - len_reg + 1):
+    stop = len_text - len_reg + 1
+    if regex and regex[-1] == '$':
+        stop += 1
+    if regex and regex[0] == '^':
+        return matchstring(regex[1:], text)
+    for i in range(stop):
         if matchstring(regex, text[i:]):
             return True
     return False
